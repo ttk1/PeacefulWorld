@@ -1,5 +1,7 @@
 package net.ttk1.peacefulworld.api;
 
+import org.bukkit.entity.Entity;
+
 import java.util.List;
 
 /**
@@ -8,6 +10,7 @@ import java.util.List;
 public interface History {
     long getId();
     long getTime();
+    Entity getPlayer();
     History getOrigin();
     History getParent();
     List<History> getChildren();
