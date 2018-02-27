@@ -8,13 +8,16 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public class PeacefulWorld extends JavaPlugin {
     private HistoryManager historyManager;
     private FileConfiguration conf;
+    private Logger logger;
 
     public PeacefulWorld(){
         super();
+        this.logger = getLogger();
     }
 
     @Override
@@ -24,11 +27,13 @@ public class PeacefulWorld extends JavaPlugin {
 
         // DBとの接続周りはHistoryManagerの実装に任せる
         this.historyManager = new HistoryManagerImpl(conf);
-        getLogger().info("PeacefulWorld enabled");
+        logger.info("PeacefulWorld enabled");
+        logger.info(conf.getString("test"));
+
     }
 
     @Override
     public void onDisable() {
-        getLogger().info("PeacefulWorld disabled");
+        logger.info("PeacefulWorld disabled");
     }
 }
