@@ -6,7 +6,10 @@ import org.bukkit.entity.Entity;
 
 import java.util.List;
 
-public class BlockHistory implements History {
+/**
+ * @author ttk1 and mmtsk
+ */
+public class HistoryImpl implements History {
 
     @Override
     public long getId() {
@@ -45,6 +48,46 @@ public class BlockHistory implements History {
 
     @Override
     public BlockAdapter getBlockReplaced() {
+        return null;
+    }
+
+    @Override
+    public boolean rollbackThis() {
+        return false;
+    }
+
+    @Override
+    public boolean rollbackThis(boolean force) {
+        return false;
+    }
+
+    @Override
+    public boolean rollbackAll() {
+        return false;
+    }
+
+    @Override
+    public boolean rollbackAll(boolean force) {
+        return false;
+    }
+
+    @Override
+    public boolean isConflict() {
+        return false;
+    }
+
+    @Override
+    public boolean isConflictAll() {
+        return false;
+    }
+
+    @Override
+    public List<History> getConflicts() {
+        return null;
+    }
+
+    @Override
+    public List<History> getAllConflicts() {
         return null;
     }
 }
