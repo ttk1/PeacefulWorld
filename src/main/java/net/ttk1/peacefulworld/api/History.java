@@ -52,6 +52,11 @@ public interface History {
     BlockAdapter getBlockReplaced();
 
     /**
+     * @return このHistoryがロールバックされたものか否かを返す
+     */
+    boolean isRollbacked();
+
+    /**
      * このhistoryをロールバックする。
      * 競合が発生した場合失敗し、なにも変化しない。
      * @return ロールバックが成功したかどうか
