@@ -1,3 +1,7 @@
+/**
+ * Copyright (C) Tama's Workshop 2018
+ */
+
 package net.ttk1.peacefulworld;
 
 import net.ttk1.peacefulworld.api.History;
@@ -10,6 +14,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * @author ttk1 and mmtsk
+ */
 public class PeacefulWorld extends JavaPlugin {
     private HistoryManager historyManager;
     private FileConfiguration conf;
@@ -25,8 +32,6 @@ public class PeacefulWorld extends JavaPlugin {
         // 設定ファイルの読み込み
         conf = getConfig();
 
-        // DBとの接続周りはHistoryManagerの実装に任せる
-        this.historyManager = new HistoryManagerImpl(conf);
         logger.info("PeacefulWorld enabled");
         logger.info(conf.getString("test"));
 
@@ -35,5 +40,9 @@ public class PeacefulWorld extends JavaPlugin {
     @Override
     public void onDisable() {
         logger.info("PeacefulWorld disabled");
+    }
+
+    public HistoryManager getHistoryManager() {
+        return historyManager;
     }
 }
