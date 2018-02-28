@@ -52,6 +52,11 @@ public class HistoryImpl implements History {
     }
 
     @Override
+    public boolean isRollbacked() {
+        return false;
+    }
+
+    @Override
     public boolean rollbackThis() {
         return false;
     }
