@@ -1,7 +1,14 @@
 package net.ttk1.peacefulworld.api;
 
-import org.bukkit.block.Block;
+import org.bukkit.Location;
+import org.bukkit.Material;
 
-public interface BlockAdapter extends Block {
-
+/**
+ * @author ttk1 and mmtsk
+ */
+public interface BlockAdapter {
+    Location getLocation();
+    Material getType();
+    int getTypeId();
+    byte getData();
 }
