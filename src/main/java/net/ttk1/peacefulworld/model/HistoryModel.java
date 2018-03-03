@@ -16,10 +16,24 @@ import net.ttk1.peacefulworld.model.query.*;
 public class HistoryModel extends Model{
     public static final HistoryFinder find = new HistoryFinder();
     @Id
-    final Long id;
+    private long id;
+    private String name;
 
-    public HistoryModel(Long id, String test){
+    public HistoryModel(long id, String name){
         this.id = id;
+        this.name = name;
+    }
+
+    public HistoryModel(String name){
+        this.name = name;
+    }
+
+    public long getId(){
+        return this.id;
+    }
+
+    public String getName(){
+        return this.name;
     }
 
     static class HistoryFinder extends Finder<String, HistoryModel>{

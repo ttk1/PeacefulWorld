@@ -42,6 +42,23 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>io.ebean</groupId>
+        <artifactId>ebean-maven-plugin</artifactId>
+        <version>11.10.1</version>
+        <executions>
+          <execution>
+            <id>main</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>enhance</goal>
+            </goals>
+            <configuration>
+              <transformArgs>debug=1</transformArgs>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <repositories>
