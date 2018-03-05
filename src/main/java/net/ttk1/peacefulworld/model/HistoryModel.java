@@ -36,7 +36,7 @@ public class HistoryModel extends Model{
         return this.name;
     }
 
-    static class HistoryFinder extends Finder<String, HistoryModel>{
+    public static class HistoryFinder extends Finder<String, HistoryModel>{
         HistoryFinder(){
             super(HistoryModel.class);
         }
