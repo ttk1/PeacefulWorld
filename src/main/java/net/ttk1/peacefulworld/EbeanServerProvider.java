@@ -2,77 +2,81 @@ package net.ttk1.peacefulworld;
 
 import io.ebean.EbeanServer;
 import io.ebean.EbeanServerFactory;
+import io.ebean.annotation.TxIsolation;
 import io.ebean.config.ClassLoadConfig;
 import io.ebean.config.ServerConfig;
 import net.ttk1.peacefulworld.model.HistoryModel;
 import org.avaje.datasource.DataSourceConfig;
 
 import com.google.inject.Inject;
+import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.ConfigurationSection;
+
 import javax.inject.Provider;
+import javax.sql.DataSource;
 import java.io.*;
 import java.util.Arrays;
 import java.util.Properties;
 
+/**
+ * @author ttk1 and mmtsk
+ */
 public class EbeanServerProvider implements Provider<EbeanServer> {
     private PeacefulWorld plugin;
-    private Properties properties;
+    private ConfigurationSection dbConfig;
+
+    @Inject
+    public void setConfig(Configuration config) {
+        this.dbConfig = config.getConfigurationSection("DB");
+    }
 
     @Inject
     public void setPlugin(PeacefulWorld plugin) {
         this.plugin = plugin;
     }
 
-    @Inject
-    public void setProperties(Properties properties) {
-        this.properties = properties;
-    }
-
     @Override
     public EbeanServer get() {
-        DataSourceConfig ds = new DataSourceConfig();
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(new File(plugin.getDataFolder(), "ebean.properties"));
-            Properties properties = new Properties();
-            properties.load(inputStream);
-            ds.loadSettings(properties, "db");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (dbConfig == null){
+            return null;
         }
-        ServerConfig config = prepareDatabase();
-        config.loadFromProperties();
-        config.setDefaultServer(true);
-        config.setClassLoadConfig(new ClassLoadConfig(this.getClass().getClassLoader()));
-        config.setClasses(Arrays.asList(HistoryModel.class));
 
-        return EbeanServerFactory.createWithContextClassLoader(config, this.getClass().getClassLoader());
+        DataSourceConfig dataSourceConfig = new DataSourceConfig();
+        ServerConfig serverConfig = new ServerConfig();
+
+        String dbType = nullCheck(dbConfig.getString("type"));
+        String username = nullCheck(dbConfig.getString("username"));
+        String password = nullCheck(dbConfig.getString("password"));
+
+        if (dbType.equals("sqlite")){
+            dataSourceConfig.setDriver("org.sqlite.JDBC");
+        } else if(dbType.equals("mysql")){
+            dataSourceConfig.setDriver("hogehoge");
+        } else {
+            return null;
+        }
+
+        dataSourceConfig.setUsername(username);
+        dataSourceConfig.setPassword(password);
+        dataSourceConfig.setUrl("jdbc:sqlite:"+plugin.getDataFolder().getAbsolutePath()+"\\database.db");
+        dataSourceConfig.setIsolationLevel(TxIsolation.valueOf("SERIALIZABLE").getLevel());
+
+        serverConfig.setName("db");
+        serverConfig.setDdlRun(true);
+        serverConfig.setDdlGenerate(true);
+        serverConfig.setDataSourceConfig(dataSourceConfig);
+        //serverConfig.setClasses(Arrays.asList(HistoryModel.class));
+        serverConfig.addClass(HistoryModel.class);
+        serverConfig.setClassLoadConfig(new ClassLoadConfig(this.getClass().getClassLoader()));
+
+        return EbeanServerFactory.createWithContextClassLoader(serverConfig, this.getClass().getClassLoader());
     }
 
-    private ServerConfig prepareDatabase() {
-        //Setup the data source
-        DataSourceConfig ds = new DataSourceConfig();
-
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(new File(plugin.getDataFolder(), "ebean.properties"));
-            Properties properties = new Properties();
-            properties.load(inputStream);
-            ds.loadSettings(properties, "db");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+    private String nullCheck(String val){
+        if (val == null){
+            return "";
+        } else {
+            return val;
         }
-
-        //Setup the server configuration
-        ServerConfig sc = new ServerConfig();
-        sc.setDefaultServer(true);
-        sc.setRegister(true);
-        sc.setName(ds.getUrl().replaceAll("[^a-zA-Z0-9]", ""));
-        //Finally the data source
-        sc.setDataSourceConfig(ds);
-        return sc;
     }
 }

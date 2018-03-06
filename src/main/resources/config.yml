@@ -1,2 +1,15 @@
-test:
-- hello
+# test
+test: hello
+
+# test2
+test2:
+  test3: ya
+
+# DB type.
+# If you use SQLite, set "type: sqlite".
+# If you use MySQL, set "type: mysql".
+# Now only SQLite is supported!
+DB:
+  type: sqlite
+  username:
+  password:

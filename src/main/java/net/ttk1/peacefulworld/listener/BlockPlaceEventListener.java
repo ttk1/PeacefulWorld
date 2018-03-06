@@ -16,6 +16,5 @@ public class BlockPlaceEventListener implements Listener {
 
     @EventHandler
     public void onBlockPlaceEventListener(BlockPlaceEvent event) {
-        ;
     }
 }

@@ -21,33 +21,34 @@ import java.util.logging.Logger;
 public class PeacefulWorld extends JavaPlugin {
 
     @Inject private BlockPlaceEventListener blockPlaceEventListener;
-
-    private HistoryManager historyManager;
-    private Configuration conf;
+    @Inject private HistoryManager historyManager;
+    private Configuration config;
     private Logger logger;
 
     public PeacefulWorld(){
-        super();
         this.logger = getLogger();
+        this.config = getConfig();
     }
 
     @Override
     public void onEnable() {
-
+        // loading congfig.yml
         loadConfig();
 
-        PeacefulWorldBindModule module = new PeacefulWorldBindModule(this, getConfig());
+        PeacefulWorldBindModule module = new PeacefulWorldBindModule(this);
         Injector injector = module.createInjector();
         injector.injectMembers(this);
 
-        HistoryModel historyModel = new HistoryModel("hello");
-        historyModel.save();
-        //server = Ebean.getServer("db");
-        //server.save(historyModel);
-
         logger.info("PeacefulWorld enabled");
-        logger.info(conf.getString("test"));
 
+        // test code
+        {
+            logger.info(config.getString("test"));
+            logger.info(config.getConfigurationSection("test2").getString("test3"));
+            HistoryModel historyModel = new HistoryModel("hello");
+            historyModel.save();
+            logger.info("ID: "+historyModel.getId()+", NAME: "+historyModel.getName());
+        }
     }
 
     @Override
@@ -58,7 +59,6 @@ public class PeacefulWorld extends JavaPlugin {
     public HistoryManager getHistoryManager() {
         return historyManager;
     }
-
 
     private void loadConfig() {
         try {

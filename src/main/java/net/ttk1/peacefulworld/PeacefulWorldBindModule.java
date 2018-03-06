@@ -3,8 +3,13 @@ package net.ttk1.peacefulworld;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Singleton;
 import io.ebean.EbeanServer;
+import net.ttk1.peacefulworld.api.HistoryManager;
+import net.ttk1.peacefulworld.history.HistoryManagerImpl;
 import org.bukkit.configuration.Configuration;
+
+import java.lang.annotation.Annotation;
 
 /**
  * author ttk1 and mmtsk
@@ -12,24 +17,21 @@ import org.bukkit.configuration.Configuration;
 public class PeacefulWorldBindModule extends AbstractModule {
 
     private final PeacefulWorld plugin;
-    private final Configuration configuration;
 
     // let plugin be given one when instantiated
-    public PeacefulWorldBindModule(PeacefulWorld plugin, Configuration configuration) {
+    public PeacefulWorldBindModule(PeacefulWorld plugin) {
         this.plugin = plugin;
-        this.configuration = configuration;
     }
 
-    // Guice.createInjector method requires AbstractModule with configure method
     public Injector createInjector() {
         return Guice.createInjector(this);
     }
 
     @Override
     protected void configure() {
-        this.bind(PeacefulWorld.class).toInstance(this.plugin);
-        this.bind(Configuration.class).toInstance(this.configuration);
-        this.bind(EbeanServer.class).toProvider(EbeanServerProvider.class).asEagerSingleton();
+        bind(PeacefulWorld.class).toInstance(plugin);
+        bind(Configuration.class).toInstance(plugin.getConfig());
+        bind(EbeanServer.class).toProvider(EbeanServerProvider.class).asEagerSingleton();
     }
 
 }

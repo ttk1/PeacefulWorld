@@ -11,12 +11,9 @@ import static org.hamcrest.MatcherAssert.*;
 public class HistoryModelTest {
     @Test
     public void insertTest(){
-        for (int i = 0; i < 10; i++) {
-            HistoryModel historyModel = new HistoryModel("hello");
-            historyModel.save();
-            System.out.println(historyModel.getId());
-        }
-        //historyModel = Ebean.find(HistoryModel.class, 123);
-        //assertThat(historyModel.getName(), is("hello"));
+        new HistoryModel(123L,"hello").save();
+        new HistoryModel(345L,"こんにちは").save();
+        assertThat(Ebean.find(HistoryModel.class, 123).getName(), is("hello"));
+        assertThat(Ebean.find(HistoryModel.class, 345).getName(), is("こんにちは"));
     }
 }
