@@ -138,7 +138,6 @@
                 <includes>
                     <include>plugin.yml</include>
                     <include>config.yml</include>
-                    <include>ebean.properties</include>
                 </includes>
             </resource>
         </resources>

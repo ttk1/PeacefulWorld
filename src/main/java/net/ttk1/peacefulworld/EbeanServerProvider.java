@@ -61,6 +61,7 @@ public class EbeanServerProvider implements Provider<EbeanServer> {
         dataSourceConfig.setUrl("jdbc:sqlite:"+plugin.getDataFolder().getAbsolutePath()+"\\database.db");
         dataSourceConfig.setIsolationLevel(TxIsolation.valueOf("SERIALIZABLE").getLevel());
 
+
         serverConfig.setName("db");
         serverConfig.setDdlRun(true);
         serverConfig.setDdlGenerate(true);
