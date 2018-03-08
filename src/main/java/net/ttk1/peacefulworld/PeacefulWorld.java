@@ -4,7 +4,6 @@
 
 package net.ttk1.peacefulworld;
 
-import ch.qos.logback.classic.Level;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import net.ttk1.peacefulworld.api.HistoryManager;
@@ -26,19 +25,10 @@ public class PeacefulWorld extends JavaPlugin {
     private Configuration config;
     private Logger logger;
 
-    public PeacefulWorld(){
-        ((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("io.ebean")).setLevel(Level.INFO);
-        ((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("io.ebeaninternal")).setLevel(Level.INFO);
-        ((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("org.avaje")).setLevel(Level.INFO);
-        ((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("org.avaje")).setLevel(Level.INFO);
-
-        this.logger = getLogger();
-    }
-
     @Override
     public void onEnable() {
-        // loading congfig.yml
-        loadConfig();
+        // initialize
+        init();
 
         PeacefulWorldBindModule module = new PeacefulWorldBindModule(this);
         Injector injector = module.createInjector();
@@ -65,6 +55,20 @@ public class PeacefulWorld extends JavaPlugin {
         return historyManager;
     }
 
+    private void init(){
+        loadConfig();
+        config = getConfig();
+        logger = getLogger();
+
+        // debug mode
+        if (!config.getBoolean("debug", false)) {
+            ((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("io.ebean")).setLevel(ch.qos.logback.classic.Level.INFO);
+            ((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("io.ebeaninternal")).setLevel(ch.qos.logback.classic.Level.INFO);
+            ((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("org.avaje")).setLevel(ch.qos.logback.classic.Level.INFO);
+            ((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("org.avaje")).setLevel(ch.qos.logback.classic.Level.INFO);
+        }
+    }
+
     private void loadConfig() {
         try {
             if (!getDataFolder().exists()) {
@@ -80,7 +84,5 @@ public class PeacefulWorld extends JavaPlugin {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        config = getConfig();
     }
 }

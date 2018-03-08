@@ -35,36 +35,45 @@ public class EbeanServerProvider implements Provider<EbeanServer> {
         ServerConfig serverConfig = new ServerConfig();
 
         String dbType = dbConfig.getString("type", "sqlite");
-        String dbname = dbConfig.getString("dbname", "database");
+        String database = dbConfig.getString("database", "database");
+        String hostname = dbConfig.getString("hostname", "hostname");
         String username = dbConfig.getString("username", "");
         String password = dbConfig.getString("password", "");
 
-        if (dbType.equals("sqlite")){
-            dataSourceConfig.setDriver("org.sqlite.JDBC");
-            dataSourceConfig.setUrl("jdbc:sqlite:"+plugin.getDataFolder().getAbsolutePath()+"\\database.db");
-            dataSourceConfig.setIsolationLevel(TxIsolation.valueOf("SERIALIZABLE").getLevel());
-        } else if(dbType.equals("mysql")){
-            dataSourceConfig.setDriver("com.mysql.jdbc.Driver");
-            dataSourceConfig.setUrl("jdbc:mysql://127.0.0.1:3306/"+dbname);
-            dataSourceConfig.setIsolationLevel(TxIsolation.valueOf("SERIALIZABLE").getLevel());
-        } else {
-            return null;
+        switch (dbType) {
+            case "sqlite":
+                dataSourceConfig.setDriver("org.sqlite.JDBC");
+                dataSourceConfig.setUrl("jdbc:sqlite:" + plugin.getDataFolder().getAbsolutePath() + "\\database.db");
+                dataSourceConfig.setIsolationLevel(TxIsolation.valueOf("SERIALIZABLE").getLevel());
+                break;
+            case "mysql":
+                dataSourceConfig.setDriver("com.mysql.jdbc.Driver");
+                dataSourceConfig.setUrl("jdbc:mysql://" + hostname +"/"+ database);
+                dataSourceConfig.setIsolationLevel(TxIsolation.valueOf("SERIALIZABLE").getLevel());
+                break;
+            default:
+                return null;
         }
-
         dataSourceConfig.setUsername(username);
         dataSourceConfig.setPassword(password);
 
         serverConfig.setResourceDirectory(plugin.getDataFolder().getAbsolutePath());
-        serverConfig.setName("db");
-        //serverConfig.setDdlCreateOnly(true);
-        serverConfig.setDdlRun(true);
-        serverConfig.setDdlGenerate(true);
+        serverConfig.setName(plugin.getDataFolder().getAbsolutePath()+"\\database");
         serverConfig.setDataSourceConfig(dataSourceConfig);
-        //serverConfig.setClasses(Arrays.asList(HistoryModel.class));
-        //serverConfig.addClass(HistoryModel.class);
         serverConfig.addPackage("net.ttk1.peacefulworld.model");
         serverConfig.setClassLoadConfig(new ClassLoadConfig(this.getClass().getClassLoader()));
 
-        return EbeanServerFactory.createWithContextClassLoader(serverConfig, this.getClass().getClassLoader());
+        EbeanServer ebeanServer = EbeanServerFactory.createWithContextClassLoader(serverConfig, this.getClass().getClassLoader());
+        try {
+            // try to access database
+            plugin.getHistoryManager().getHistory(0);
+        } catch (Exception e) {
+            //TODO
+            serverConfig.setDdlCreateOnly(dbConfig.getBoolean("protect", true));
+            serverConfig.setDdlRun(true);
+            serverConfig.setDdlGenerate(true);
+            ebeanServer =  EbeanServerFactory.createWithContextClassLoader(serverConfig, this.getClass().getClassLoader());
+        }
+        return ebeanServer;
     }
 }
