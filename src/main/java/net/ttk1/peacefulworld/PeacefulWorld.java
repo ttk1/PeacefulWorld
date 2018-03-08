@@ -27,17 +27,12 @@ public class PeacefulWorld extends JavaPlugin {
     private Logger logger;
 
     public PeacefulWorld(){
-        //((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("io.ebean.SQL")).setLevel(Level.INFO);
-        //((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("io.ebean.SUM")).setLevel(Level.INFO);
-        //((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("io.ebean.TXN")).setLevel(Level.INFO);
-        //((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("io.ebean.DDL")).setLevel(Level.INFO);
         ((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("io.ebean")).setLevel(Level.INFO);
         ((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("io.ebeaninternal")).setLevel(Level.INFO);
         ((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("org.avaje")).setLevel(Level.INFO);
         ((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("org.avaje")).setLevel(Level.INFO);
 
         this.logger = getLogger();
-        this.config = getConfig();
     }
 
     @Override
@@ -85,5 +80,7 @@ public class PeacefulWorld extends JavaPlugin {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        config = getConfig();
     }
 }
