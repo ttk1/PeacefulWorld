@@ -6,15 +6,13 @@ package net.ttk1.peacefulworld;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import net.ttk1.peacefulworld.api.History;
 import net.ttk1.peacefulworld.api.HistoryManager;
-import net.ttk1.peacefulworld.history.HistoryManagerImpl;
 import net.ttk1.peacefulworld.listener.BlockPlaceEventListener;
-import org.bukkit.Location;
-import org.bukkit.configuration.file.FileConfiguration;
+import net.ttk1.peacefulworld.model.HistoryModel;
+import org.bukkit.configuration.Configuration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.List;
+import java.io.*;
 import java.util.logging.Logger;
 
 /**
@@ -23,29 +21,29 @@ import java.util.logging.Logger;
 public class PeacefulWorld extends JavaPlugin {
 
     @Inject private BlockPlaceEventListener blockPlaceEventListener;
-
-    private HistoryManager historyManager;
-    private FileConfiguration conf;
+    @Inject private HistoryManager historyManager;
+    private Configuration config;
     private Logger logger;
-
-    public PeacefulWorld(){
-        super();
-        this.logger = getLogger();
-    }
 
     @Override
     public void onEnable() {
+        // initialize
+        init();
 
         PeacefulWorldBindModule module = new PeacefulWorldBindModule(this);
         Injector injector = module.createInjector();
         injector.injectMembers(this);
 
-        // 設定ファイルの読み込み
-        conf = getConfig();
-
         logger.info("PeacefulWorld enabled");
-        logger.info(conf.getString("test"));
 
+        // test code
+        {
+            logger.info(config.getString("test"));
+            logger.info(config.getConfigurationSection("test2").getString("test3"));
+            HistoryModel historyModel = new HistoryModel("hello");
+            historyModel.save();
+            logger.info("ID: "+historyModel.getId()+", NAME: "+historyModel.getName());
+        }
     }
 
     @Override
@@ -55,5 +53,36 @@ public class PeacefulWorld extends JavaPlugin {
 
     public HistoryManager getHistoryManager() {
         return historyManager;
+    }
+
+    private void init(){
+        loadConfig();
+        config = getConfig();
+        logger = getLogger();
+
+        // debug mode
+        if (!config.getBoolean("debug", false)) {
+            ((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("io.ebean")).setLevel(ch.qos.logback.classic.Level.INFO);
+            ((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("io.ebeaninternal")).setLevel(ch.qos.logback.classic.Level.INFO);
+            ((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("org.avaje")).setLevel(ch.qos.logback.classic.Level.INFO);
+            ((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("org.avaje")).setLevel(ch.qos.logback.classic.Level.INFO);
+        }
+    }
+
+    private void loadConfig() {
+        try {
+            if (!getDataFolder().exists()) {
+                getDataFolder().mkdirs();
+            }
+            File file = new File(getDataFolder(), "config.yml");
+            if (!file.exists()) {
+                getLogger().info("Config.yml not found, creating!");
+                saveDefaultConfig();
+            } else {
+                getLogger().info("Config.yml found, loading!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

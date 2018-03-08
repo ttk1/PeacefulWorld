@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * @author ttk1 and mmtsk
  */
+
 public interface History {
     /**
      * @return このhistoryエンティティのユニークなIDを返す

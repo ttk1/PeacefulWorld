@@ -1,2 +1,27 @@
-test:
-- hello
+########## Development Section ################
+# test
+test: hello
+
+# test2
+test2:
+  test3: ya
+
+########### Production Section ################
+# debug mode
+debug: false
+
+# DB Configuration Section
+DB:
+  # If you use SQLite, set type "sqlite".
+  # If you use MySQL, set type "mysql".
+  type: sqlite
+
+  # These are required for mysql.
+  hostname:
+  database:
+  username:
+  password:
+
+  # If you don't wanna drop your database tables, please set protect "true".
+  # If protect is set "false", then plugin possibly drops tables.
+  protect: true

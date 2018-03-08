@@ -3,6 +3,7 @@ package net.ttk1.peacefulworld;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import io.ebean.EbeanServer;
 
 /**
  * author ttk1 and mmtsk
@@ -16,14 +17,14 @@ public class PeacefulWorldBindModule extends AbstractModule {
         this.plugin = plugin;
     }
 
-    // Guice.createInjector method requires AbstractModule with configure method
     public Injector createInjector() {
         return Guice.createInjector(this);
     }
 
     @Override
     protected void configure() {
-        this.bind(PeacefulWorld.class).toInstance(this.plugin);
+        bind(PeacefulWorld.class).toInstance(plugin);
+        bind(EbeanServer.class).toProvider(EbeanServerProvider.class).asEagerSingleton();
     }
 
 }
