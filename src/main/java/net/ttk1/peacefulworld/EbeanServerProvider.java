@@ -57,7 +57,6 @@ public class EbeanServerProvider implements Provider<EbeanServer> {
         dataSourceConfig.setUsername(username);
         dataSourceConfig.setPassword(password);
 
-        serverConfig.setResourceDirectory(plugin.getDataFolder().getAbsolutePath());
         serverConfig.setName(plugin.getDataFolder().getAbsolutePath()+"\\database");
         serverConfig.setDataSourceConfig(dataSourceConfig);
         serverConfig.addPackage("net.ttk1.peacefulworld.model");
