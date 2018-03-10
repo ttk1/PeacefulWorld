@@ -1,6 +1,6 @@
 package net.ttk1.peacefulworld.test.model;
 
-import ch.qos.logback.classic.Level;
+//import ch.qos.logback.classic.Level;
 import io.ebean.Ebean;
 import net.ttk1.peacefulworld.model.HistoryModel;
 import org.junit.Before;

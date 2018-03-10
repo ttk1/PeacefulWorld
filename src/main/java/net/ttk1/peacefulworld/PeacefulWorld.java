@@ -27,6 +27,9 @@ public class PeacefulWorld extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        ClassLoader currentClassLoader = Thread.currentThread().getContextClassLoader();
+        Thread.currentThread().setContextClassLoader(getClassLoader());
+
         // initialize
         init();
 
@@ -44,6 +47,8 @@ public class PeacefulWorld extends JavaPlugin {
             historyModel.save();
             logger.info("ID: "+historyModel.getId()+", NAME: "+historyModel.getName());
         }
+
+        Thread.currentThread().setContextClassLoader(currentClassLoader);
     }
 
     @Override
@@ -62,10 +67,9 @@ public class PeacefulWorld extends JavaPlugin {
 
         // debug mode
         if (!config.getBoolean("debug", false)) {
-            ((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("io.ebean")).setLevel(ch.qos.logback.classic.Level.INFO);
-            ((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("io.ebeaninternal")).setLevel(ch.qos.logback.classic.Level.INFO);
-            ((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("org.avaje")).setLevel(ch.qos.logback.classic.Level.INFO);
-            ((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("org.avaje")).setLevel(ch.qos.logback.classic.Level.INFO);
+            //((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("io.ebean")).setLevel(ch.qos.logback.classic.Level.INFO);
+            //((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("io.ebeaninternal")).setLevel(ch.qos.logback.classic.Level.INFO);
+            //((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("org.avaje")).setLevel(ch.qos.logback.classic.Level.INFO);
         }
     }
 
