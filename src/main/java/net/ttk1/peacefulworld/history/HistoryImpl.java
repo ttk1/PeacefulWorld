@@ -10,6 +10,9 @@ import java.util.List;
  * @author ttk1 and mmtsk
  */
 public class HistoryImpl implements History {
+    HistoryImpl(long time, Entity player, History parent, BlockAdapter block, BlockAdapter blockReplaced) {
+
+    }
 
     @Override
     public long getId() {

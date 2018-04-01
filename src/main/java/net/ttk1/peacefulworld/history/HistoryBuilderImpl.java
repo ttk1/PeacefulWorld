@@ -17,7 +17,7 @@ public class HistoryBuilderImpl implements HistoryBuilder {
 
     @Override
     public History build(){
-        return null;
+        return new HistoryImpl(time, player, parent, block, blockReplaced);
     }
 
     @Override

@@ -1,13 +1,11 @@
 package net.ttk1.peacefulworld.history;
 
 import com.google.inject.Singleton;
-import io.ebean.Ebean;
 import net.ttk1.peacefulworld.api.History;
 import net.ttk1.peacefulworld.api.HistoryBuilder;
 import net.ttk1.peacefulworld.api.HistoryManager;
-import net.ttk1.peacefulworld.model.HistoryModel;
+import net.ttk1.peacefulworld.model.HistoryChainModel;
 import org.bukkit.Location;
-import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.List;
 
@@ -19,7 +17,7 @@ import java.util.List;
 public class HistoryManagerImpl implements HistoryManager {
     @Override
     public History getHistory(long id) {
-        HistoryModel historyModel = HistoryModel.find.byId(1L);
+        HistoryChainModel blockHistoryModel = HistoryChainModel.find.byId(1L);
         return null;
     }
 
