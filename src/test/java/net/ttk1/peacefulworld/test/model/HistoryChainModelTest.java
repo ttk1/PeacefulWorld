@@ -13,18 +13,18 @@ public class HistoryChainModelTest {
     @Test
     public void insertTest(){
         // insert
-        HistoryChainModel hc = new HistoryChainModel(100L, 200L, 300L, "test world", 400L, 500L, 600L);
+        HistoryChainModel hc = new HistoryChainModel(100L, 200L, 300L, 400L, false, "test world", 500L, 600L, 700L, 0, 0, 1, 1, (byte) 0x00, (byte) 0x00);
         hc.save();
 
         // select
         hc = HistoryChainModel.find.query().where().eq("id", 1L).findOne();
         assertThat(hc.getId(), is(1L));
-        assertThat(hc.getOrigin(), is(100L));
-        assertThat(hc.getParent(), is(200L));
-        assertThat(hc.getPlayer(), is(300L));
+        assertThat(hc.getOrigin(), is(200L));
+        assertThat(hc.getParent(), is(300L));
+        assertThat(hc.getPlayer(), is(400L));
         assertThat(hc.getWorldName(), is("test world"));
-        assertThat(hc.getX(), is(400L));
-        assertThat(hc.getY(), is(500L));
-        assertThat(hc.getZ(), is(600L));
+        assertThat(hc.getX(), is(500L));
+        assertThat(hc.getY(), is(600L));
+        assertThat(hc.getZ(), is(700L));
     }
 }
