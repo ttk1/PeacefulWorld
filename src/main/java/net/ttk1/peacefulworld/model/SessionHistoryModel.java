@@ -3,6 +3,7 @@ package net.ttk1.peacefulworld.model;
 import io.ebean.Finder;
 import io.ebean.Model;
 import io.ebean.annotation.Cache;
+import io.ebean.annotation.CreatedTimestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -21,6 +22,7 @@ public class SessionHistoryModel extends Model{
     private long id;
 
     // 時刻
+    @CreatedTimestamp
     private long time;
 
     // プレーヤーテーブルのid

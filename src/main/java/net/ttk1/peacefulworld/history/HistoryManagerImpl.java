@@ -17,7 +17,6 @@ import java.util.List;
 public class HistoryManagerImpl implements HistoryManager {
     @Override
     public History getHistory(long id) {
-        HistoryChainModel blockHistoryModel = HistoryChainModel.find.byId(1L);
         return null;
     }
 

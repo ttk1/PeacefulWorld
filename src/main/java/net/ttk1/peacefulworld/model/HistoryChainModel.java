@@ -34,6 +34,9 @@ public class HistoryChainModel extends Model {
     // ロールバックしたか
     private boolean rollback;
 
+
+    // BlockAdapter関係
+
     // ワールド名
     private String worldName;
 
@@ -46,14 +49,31 @@ public class HistoryChainModel extends Model {
     // 座標z
     private long z;
 
-    public HistoryChainModel(long origin, long parent, long player, String worldName, long x, long y, long z) {
+    private int typeTo;
+    private int typeFrom;
+
+    private int typeIdTo;
+    private int typeIdFrom;
+
+    private byte dataTo;
+    private byte dataFrom;
+
+    public HistoryChainModel(long time, long origin, long parent, long player, boolean rollback, String worldName, long x, long y, long z, int typeTo, int typeFrom, int typeIdTo, int typeIdFrom, byte dataTo, byte dataFrom) {
+        this.time = time;
         this.origin = origin;
         this.parent = parent;
         this.player = player;
+        this.rollback = rollback;
         this.worldName = worldName;
         this.x = x;
         this.y = y;
         this.z = z;
+        this.typeTo = typeTo;
+        this.typeFrom = typeFrom;
+        this.typeIdTo = typeIdTo;
+        this.typeIdFrom = typeIdFrom;
+        this.dataTo = dataTo;
+        this.dataFrom = dataFrom;
     }
 
     public long getId() {

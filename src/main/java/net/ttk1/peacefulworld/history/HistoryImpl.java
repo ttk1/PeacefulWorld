@@ -2,6 +2,7 @@ package net.ttk1.peacefulworld.history;
 
 import net.ttk1.peacefulworld.api.BlockAdapter;
 import net.ttk1.peacefulworld.api.History;
+import net.ttk1.peacefulworld.model.HistoryChainModel;
 import org.bukkit.entity.Entity;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  */
 public class HistoryImpl implements History {
     HistoryImpl(long time, Entity player, History parent, BlockAdapter block, BlockAdapter blockReplaced) {
+
 
     }
 
