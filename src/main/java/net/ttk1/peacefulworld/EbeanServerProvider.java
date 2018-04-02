@@ -5,6 +5,9 @@ import io.ebean.EbeanServerFactory;
 import io.ebean.annotation.TxIsolation;
 import io.ebean.config.ClassLoadConfig;
 import io.ebean.config.ServerConfig;
+import net.ttk1.peacefulworld.model.HistoryChainModel;
+import net.ttk1.peacefulworld.model.PlayerModel;
+import net.ttk1.peacefulworld.model.SessionHistoryModel;
 import org.avaje.datasource.DataSourceConfig;
 
 import com.google.inject.Inject;
@@ -65,7 +68,9 @@ public class EbeanServerProvider implements Provider<EbeanServer> {
         EbeanServer ebeanServer = EbeanServerFactory.createWithContextClassLoader(serverConfig, this.getClass().getClassLoader());
         try {
             // try to access database
-            plugin.getHistoryManager().getHistory(0);
+            HistoryChainModel.find.byId(1L);
+            PlayerModel.find.byId(1L);
+            SessionHistoryModel.find.byId(1L);
         } catch (Exception e) {
             //TODO
             serverConfig.setDdlCreateOnly(dbConfig.getBoolean("protect", true));
