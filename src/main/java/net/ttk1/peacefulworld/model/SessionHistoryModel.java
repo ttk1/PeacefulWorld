@@ -16,18 +16,40 @@ import javax.persistence.Table;
 @Table(name = "session_history")
 public class SessionHistoryModel extends Model{
     public static final SessionHistoryFinder find = new SessionHistoryFinder();
+
     @Id
     private long id;
 
+    // 時刻
+    private long time;
+
     // プレーヤーテーブルのid
-    private String player;
+    private long player;
+
+    // type:0 -> login
+    // type:1 -> logout
+    private int type;
+
+
+    public SessionHistoryModel(long player, int type) {
+        this.player = player;
+        this.type = type;
+    }
 
     public long getId() {
         return id;
     }
 
-    public String getPlayer() {
+    public long getTime() {
+        return time;
+    }
+
+    public long getPlayer() {
         return player;
+    }
+
+    public int getType() {
+        return type;
     }
 
     public static class SessionHistoryFinder extends Finder<Long, SessionHistoryModel>{

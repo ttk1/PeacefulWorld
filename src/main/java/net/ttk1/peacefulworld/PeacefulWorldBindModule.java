@@ -26,5 +26,4 @@ public class PeacefulWorldBindModule extends AbstractModule {
         bind(PeacefulWorld.class).toInstance(plugin);
         bind(EbeanServer.class).toProvider(EbeanServerProvider.class).asEagerSingleton();
     }
-
 }

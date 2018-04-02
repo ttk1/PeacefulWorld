@@ -8,7 +8,10 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import net.ttk1.peacefulworld.api.HistoryManager;
 import net.ttk1.peacefulworld.listener.BlockPlaceEventListener;
-import net.ttk1.peacefulworld.model.HistoryModel;
+import net.ttk1.peacefulworld.listener.SessionListener;
+import net.ttk1.peacefulworld.model.HistoryChainModel;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,34 +24,34 @@ import java.util.logging.Logger;
 public class PeacefulWorld extends JavaPlugin {
 
     @Inject private BlockPlaceEventListener blockPlaceEventListener;
+    @Inject private SessionListener sessionListener;
     @Inject private HistoryManager historyManager;
     private Configuration config;
     private Logger logger;
 
     @Override
     public void onEnable() {
+        // クラスローダーを書き換える
         ClassLoader currentClassLoader = Thread.currentThread().getContextClassLoader();
         Thread.currentThread().setContextClassLoader(getClassLoader());
 
-        // initialize
+        // 初期化処理
         init();
 
         PeacefulWorldBindModule module = new PeacefulWorldBindModule(this);
         Injector injector = module.createInjector();
         injector.injectMembers(this);
 
-        logger.info("PeacefulWorld enabled");
 
-        // test code
+        // event listenerの登録
         {
-            logger.info(config.getString("test"));
-            logger.info(config.getConfigurationSection("test2").getString("test3"));
-            HistoryModel historyModel = new HistoryModel("hello");
-            historyModel.save();
-            logger.info("ID: "+historyModel.getId()+", NAME: "+historyModel.getName());
+            getServer().getPluginManager().registerEvents(sessionListener, this);
+            getServer().getPluginManager().registerEvents(blockPlaceEventListener, this);
         }
 
+        // クラスローダーを元に戻す
         Thread.currentThread().setContextClassLoader(currentClassLoader);
+        logger.info("PeacefulWorld enabled");
     }
 
     @Override
@@ -65,11 +68,9 @@ public class PeacefulWorld extends JavaPlugin {
         config = getConfig();
         logger = getLogger();
 
-        // debug mode
+        // debug用の設定はここに
         if (!config.getBoolean("debug", false)) {
-            //((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("io.ebean")).setLevel(ch.qos.logback.classic.Level.INFO);
-            //((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("io.ebeaninternal")).setLevel(ch.qos.logback.classic.Level.INFO);
-            //((ch.qos.logback.classic.Logger)org.slf4j.LoggerFactory.getLogger("org.avaje")).setLevel(ch.qos.logback.classic.Level.INFO);
+            logger.info("debug mode enabled");
         }
     }
 
@@ -88,5 +89,21 @@ public class PeacefulWorld extends JavaPlugin {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
+        if (command.getName().equalsIgnoreCase("pw") && args.length >= 1){
+            try{
+                for (int i = 0; i <= 10; i++){
+                    sender.sendMessage(args[0]+i);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return true;
     }
 }

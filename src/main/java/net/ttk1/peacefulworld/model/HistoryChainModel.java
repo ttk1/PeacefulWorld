@@ -80,6 +80,10 @@ public class HistoryChainModel extends Model {
         return rollback;
     }
 
+    public void setRollback(boolean rollback) {
+        this.rollback = rollback;
+    }
+
     public String getWorldName() {
         return worldName;
     }

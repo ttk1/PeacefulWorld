@@ -22,6 +22,11 @@ public class PlayerModel extends Model{
     private String uuid;
     private String name;
 
+    public PlayerModel(String uuid, String name) {
+        this.uuid = uuid;
+        this.name = name;
+    }
+
     public long getId() {
         return id;
     }
@@ -32,6 +37,10 @@ public class PlayerModel extends Model{
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String newName){
+        this.name = newName;
     }
 
     public static class PlayerFinder extends Finder<Long, PlayerModel>{
