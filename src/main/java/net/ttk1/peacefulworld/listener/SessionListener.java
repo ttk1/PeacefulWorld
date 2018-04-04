@@ -25,6 +25,7 @@ public class SessionListener implements Listener {
     @EventHandler
     public void onPlayerJoinEvent(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        long time = System.currentTimeMillis();
         PlayerModel playerModel = PlayerModel.find.query().where().eq("uuid",player.getUniqueId().toString()).findOne();
 
         if (playerModel == null) {
@@ -34,7 +35,7 @@ public class SessionListener implements Listener {
             playerModel.save();
 
             long playerId = playerModel.getId();
-            SessionHistoryModel sessionHistoryModel = new SessionHistoryModel(playerId, 0);
+            SessionHistoryModel sessionHistoryModel = new SessionHistoryModel(time, playerId, 0);
             sessionHistoryModel.save();
         } else {
             if (!playerModel.getName().equals(player.getPlayerListName())){
@@ -44,7 +45,7 @@ public class SessionListener implements Listener {
                 playerModel.update();
             }
 
-            SessionHistoryModel sessionHistoryModel = new SessionHistoryModel(playerModel.getId(), 0);
+            SessionHistoryModel sessionHistoryModel = new SessionHistoryModel(time, playerModel.getId(), 0);
             sessionHistoryModel.save();
         }
     }
@@ -52,6 +53,7 @@ public class SessionListener implements Listener {
     @EventHandler
     public void onPlayerQuitEvent(PlayerQuitEvent event) {
         Player player = event.getPlayer();
+        long time = System.currentTimeMillis();
         PlayerModel playerModel = PlayerModel.find.query().where().eq("uuid",player.getUniqueId().toString()).findOne();
 
         if (playerModel == null) {
@@ -62,11 +64,11 @@ public class SessionListener implements Listener {
             playerModel.save();
 
             long playerId = playerModel.getId();
-            SessionHistoryModel sessionHistoryModel = new SessionHistoryModel(playerId, 1);
+            SessionHistoryModel sessionHistoryModel = new SessionHistoryModel(time, playerId, 1);
             sessionHistoryModel.save();
         } else {
             // logoutの際にはplayer nameはチェックしない
-            SessionHistoryModel sessionHistoryModel = new SessionHistoryModel(playerModel.getId(), 1);
+            SessionHistoryModel sessionHistoryModel = new SessionHistoryModel(time, playerModel.getId(), 1);
             sessionHistoryModel.save();
         }
     }

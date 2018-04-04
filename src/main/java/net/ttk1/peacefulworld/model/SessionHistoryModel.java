@@ -22,7 +22,7 @@ public class SessionHistoryModel extends Model{
     private long id;
 
     // 時刻
-    @CreatedTimestamp
+    //@CreatedTimestamp
     private long time;
 
     // プレーヤーテーブルのid
@@ -33,7 +33,8 @@ public class SessionHistoryModel extends Model{
     private int type;
 
 
-    public SessionHistoryModel(long player, int type) {
+    public SessionHistoryModel(long time, long player, int type) {
+        this.time = time;
         this.player = player;
         this.type = type;
     }

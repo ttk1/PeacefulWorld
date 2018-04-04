@@ -20,9 +20,9 @@ public interface History {
     long getTime();
 
     /**
-     * @return このhistoryを引き起こしたプレーヤーエンティティを返す
+     * @return このhistoryを引き起こしたエンティティのuuidを返す
      */
-    Entity getPlayer();
+    String getUuid();
 
     /**
      * 自分自身が発生源のhistoryは自分自身を返す。

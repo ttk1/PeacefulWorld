@@ -19,7 +19,7 @@ public class HistoryChainModel extends Model {
     private long id;
 
     // 発生時刻
-    @CreatedTimestamp
+    //@CreatedTimestamp
     private long time;
 
     // 起源となるHistoryのid
@@ -51,14 +51,12 @@ public class HistoryChainModel extends Model {
 
     private int typeTo;
     private int typeFrom;
-
     private int typeIdTo;
     private int typeIdFrom;
-
     private byte dataTo;
     private byte dataFrom;
 
-    public HistoryChainModel(long time, long origin, long parent, long player, boolean rollback, String worldName, long x, long y, long z, int typeTo, int typeFrom, int typeIdTo, int typeIdFrom, byte dataTo, byte dataFrom) {
+    public HistoryChainModel(long time, long origin, long parent, long player, boolean rollback, String worldName, long x, long y, long z, int typeTo, int typeIdTo, byte dataTo, int typeFrom, int typeIdFrom, byte dataFrom) {
         this.time = time;
         this.origin = origin;
         this.parent = parent;
@@ -68,11 +66,13 @@ public class HistoryChainModel extends Model {
         this.x = x;
         this.y = y;
         this.z = z;
+
         this.typeTo = typeTo;
-        this.typeFrom = typeFrom;
         this.typeIdTo = typeIdTo;
-        this.typeIdFrom = typeIdFrom;
         this.dataTo = dataTo;
+
+        this.typeFrom = typeFrom;
+        this.typeIdFrom = typeIdFrom;
         this.dataFrom = dataFrom;
     }
 
@@ -96,7 +96,7 @@ public class HistoryChainModel extends Model {
         return player;
     }
 
-    public boolean isRollback() {
+    public boolean isRollbacked() {
         return rollback;
     }
 
@@ -118,6 +118,30 @@ public class HistoryChainModel extends Model {
 
     public long getZ() {
         return z;
+    }
+
+    public int getTypeTo() {
+        return typeTo;
+    }
+
+    public byte getDataTo() {
+        return dataTo;
+    }
+
+    public int getTypeIdTo() {
+        return typeIdTo;
+    }
+
+    public int getTypeFrom() {
+        return typeFrom;
+    }
+
+    public int getTypeIdFrom() {
+        return typeIdFrom;
+    }
+
+    public byte getDataFrom() {
+        return dataFrom;
     }
 
     public static class BlockHistoryFinder extends Finder<Long, HistoryChainModel>{
