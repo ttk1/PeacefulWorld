@@ -186,12 +186,27 @@ public class HistoryImpl implements History {
 
     @Override
     public boolean rollbackAll() {
-        return false;
+        List<HistoryChainModel> historyChainModels = HistoryChainModel.find.query().where().eq("origin", getOrigin()).eq("rollback", false).findList();
+        boolean success = true;
+        for (HistoryChainModel historyChainModel: historyChainModels) {
+            HistoryImpl history = new HistoryImpl(historyChain);
+            success &= history.rollbackThis();
+        }
+        return success;
     }
 
     @Override
     public boolean rollbackAll(boolean force) {
-        return false;
+        if (force) {
+            List<HistoryChainModel> historyChainModels = HistoryChainModel.find.query().where().eq("origin", getOrigin()).eq("rollback", false).findList();
+            for (HistoryChainModel historyChainModel: historyChainModels) {
+                HistoryImpl history = new HistoryImpl(historyChain);
+                history.rollbackThis(true);
+            }
+            return true;
+        } else {
+            return rollbackAll();
+        }
     }
 
     @Override

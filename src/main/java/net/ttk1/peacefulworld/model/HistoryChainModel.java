@@ -74,6 +74,13 @@ public class HistoryChainModel extends Model {
         this.typeFrom = typeFrom;
         this.typeIdFrom = typeIdFrom;
         this.dataFrom = dataFrom;
+
+        this.save();
+
+        if (origin == 0) {
+            this.origin = this.id;
+            this.update();
+        }
     }
 
     public long getId() {
