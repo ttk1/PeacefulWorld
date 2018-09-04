@@ -3,7 +3,6 @@ package net.ttk1.peacefulworld.model;
 import io.ebean.Finder;
 import io.ebean.Model;
 import io.ebean.annotation.Cache;
-import io.ebean.annotation.CreatedTimestamp;
 
 import javax.persistence.*;
 
@@ -14,12 +13,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "history_chain")
 public class HistoryChainModel extends Model {
-    public static final BlockHistoryFinder find = new BlockHistoryFinder();
     @Id
     private long id;
 
     // 発生時刻
-    //@CreatedTimestamp
     private long time;
 
     // 起源となるHistoryのid
@@ -34,46 +31,31 @@ public class HistoryChainModel extends Model {
     // ロールバックしたか
     private boolean rollback;
 
-
-    // BlockAdapter関係
-
     // ワールド名
     private String worldName;
 
     // 座標x
-    private long x;
+    private int x;
 
     // 座標y
-    private long y;
+    private int y;
 
     // 座標z
-    private long z;
+    private int z;
 
-    private int typeTo;
-    private int typeFrom;
-    private int typeIdTo;
-    private int typeIdFrom;
-    private byte dataTo;
-    private byte dataFrom;
+    private String blockDataString;
 
-    public HistoryChainModel(long time, long origin, long parent, long player, boolean rollback, String worldName, long x, long y, long z, int typeTo, int typeIdTo, byte dataTo, int typeFrom, int typeIdFrom, byte dataFrom) {
+    public HistoryChainModel(long time, long origin, long parent, long player, String worldName, int x, int y, int z, String blockDataString) {
         this.time = time;
         this.origin = origin;
         this.parent = parent;
         this.player = player;
-        this.rollback = rollback;
+        this.rollback = false;
         this.worldName = worldName;
         this.x = x;
         this.y = y;
         this.z = z;
-
-        this.typeTo = typeTo;
-        this.typeIdTo = typeIdTo;
-        this.dataTo = dataTo;
-
-        this.typeFrom = typeFrom;
-        this.typeIdFrom = typeIdFrom;
-        this.dataFrom = dataFrom;
+        this.blockDataString = blockDataString;
 
         this.save();
 
@@ -103,7 +85,7 @@ public class HistoryChainModel extends Model {
         return player;
     }
 
-    public boolean isRollbacked() {
+    public boolean getRollback() {
         return rollback;
     }
 
@@ -115,48 +97,25 @@ public class HistoryChainModel extends Model {
         return worldName;
     }
 
-    public long getX() {
+    public int getX() {
         return x;
     }
 
-    public long getY() {
+    public int getY() {
         return y;
     }
 
-    public long getZ() {
+    public int getZ() {
         return z;
     }
 
-    public int getTypeTo() {
-        return typeTo;
-    }
-
-    public byte getDataTo() {
-        return dataTo;
-    }
-
-    public int getTypeIdTo() {
-        return typeIdTo;
-    }
-
-    public int getTypeFrom() {
-        return typeFrom;
-    }
-
-    public int getTypeIdFrom() {
-        return typeIdFrom;
-    }
-
-    public byte getDataFrom() {
-        return dataFrom;
+    public String getBlockDataString() {
+        return blockDataString;
     }
 
     public static class BlockHistoryFinder extends Finder<Long, HistoryChainModel>{
-        BlockHistoryFinder(){
-            super(HistoryChainModel.class);
-        }
-        BlockHistoryFinder(String serverName){
-            super(HistoryChainModel.class, serverName);
+        BlockHistoryFinder(String ebeanServerName){
+            super(HistoryChainModel.class, ebeanServerName);
         }
     }
 }

@@ -1,5 +1,6 @@
 package net.ttk1.peacefulworld;
 
+import com.google.inject.name.Named;
 import io.ebean.EbeanServer;
 import io.ebean.EbeanServerFactory;
 import io.ebean.annotation.TxIsolation;
@@ -21,11 +22,17 @@ import javax.inject.Provider;
 public class EbeanServerProvider implements Provider<EbeanServer> {
     private PeacefulWorld plugin;
     private ConfigurationSection dbConfig;
+    private String ebeanServerName;
 
     @Inject
     private void setPlugin(PeacefulWorld plugin) {
         this.plugin = plugin;
         this.dbConfig = plugin.getConfig().getConfigurationSection("DB");
+    }
+
+    @Inject
+    private void setEbeanServerName(@Named("ebeanServerName") String ebeanServerName) {
+        this.ebeanServerName = ebeanServerName;
     }
 
     @Override
@@ -60,7 +67,7 @@ public class EbeanServerProvider implements Provider<EbeanServer> {
         dataSourceConfig.setUsername(username);
         dataSourceConfig.setPassword(password);
 
-        serverConfig.setName(plugin.getDataFolder().getAbsolutePath()+"\\database");
+        serverConfig.setName(ebeanServerName);
         serverConfig.setDataSourceConfig(dataSourceConfig);
         serverConfig.addPackage("net.ttk1.peacefulworld.model");
         serverConfig.setClassLoadConfig(new ClassLoadConfig(this.getClass().getClassLoader()));

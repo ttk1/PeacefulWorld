@@ -9,7 +9,6 @@ import com.google.inject.Injector;
 import net.ttk1.peacefulworld.api.HistoryManager;
 import net.ttk1.peacefulworld.listener.BlockPlaceEventListener;
 import net.ttk1.peacefulworld.listener.SessionListener;
-import net.ttk1.peacefulworld.model.HistoryChainModel;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.Configuration;
@@ -22,12 +21,36 @@ import java.util.logging.Logger;
  * @author ttk1 and mmtsk
  */
 public class PeacefulWorld extends JavaPlugin {
-
-    @Inject private BlockPlaceEventListener blockPlaceEventListener;
-    @Inject private SessionListener sessionListener;
-    @Inject private HistoryManager historyManager;
+    private BlockPlaceEventListener blockPlaceEventListener;
+    private SessionListener sessionListener;
+    private HistoryManager historyManager;
     private Configuration config;
     private Logger logger;
+
+    // event listener
+    @Inject
+    private void setBlockPlaceEventListener(BlockPlaceEventListener blockPlaceEventListener) {
+        this.blockPlaceEventListener = blockPlaceEventListener;
+    }
+
+    @Inject
+    private void setSessionListener(SessionListener sessionListener) {
+        this.sessionListener = sessionListener;
+    }
+
+    // service
+
+
+    // history manager
+    @Inject
+    private void setHistoryManager(HistoryManager historyManager) {
+        this.historyManager = historyManager;
+    }
+
+    public HistoryManager getHistoryManager() {
+        return historyManager;
+    }
+
 
     @Override
     public void onEnable() {
@@ -38,7 +61,7 @@ public class PeacefulWorld extends JavaPlugin {
         // 初期化処理
         init();
 
-        PeacefulWorldBindModule module = new PeacefulWorldBindModule(this);
+        PluginModule module = new PluginModule(this);
         Injector injector = module.createInjector();
         injector.injectMembers(this);
 
@@ -57,10 +80,6 @@ public class PeacefulWorld extends JavaPlugin {
     @Override
     public void onDisable() {
         logger.info("PeacefulWorld disabled");
-    }
-
-    public HistoryManager getHistoryManager() {
-        return historyManager;
     }
 
     private void init(){

@@ -1,10 +1,13 @@
 package net.ttk1.peacefulworld.history;
 
+import com.google.inject.Inject;
 import net.ttk1.peacefulworld.PeacefulWorld;
 import net.ttk1.peacefulworld.api.BlockAdapter;
 import net.ttk1.peacefulworld.api.History;
 import net.ttk1.peacefulworld.model.HistoryChainModel;
 import net.ttk1.peacefulworld.model.PlayerModel;
+import net.ttk1.peacefulworld.service.HistoryChainService;
+import net.ttk1.peacefulworld.service.PlayerService;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,12 +23,23 @@ import java.util.List;
  * @author ttk1 and mmtsk
  */
 public class HistoryImpl implements History {
-    private final HistoryChainModel historyChain;
-    HistoryImpl(long time, Entity player, History parent, BlockAdapter block, BlockAdapter blockReplaced) {
-        PlayerModel playerModel = PlayerModel.find.query().where().eq("uuid", player.getUniqueId().toString()).findOne();
-        if (playerModel == null) {
-            playerModel = new PlayerModel(player.getUniqueId().toString(), player.getName());
-            playerModel.save();
+    private PlayerService playerService;
+    private HistoryChainService historyChainService;
+
+    @Inject
+    private void setPlayerService(PlayerService playerService) {
+        this.playerService = playerService;
+    }
+
+    @Inject
+    private void setHistoryChainService(HistoryChainService historyChainService) {
+        this.historyChainService = historyChainService;
+    }
+
+    HistoryImpl(long time, Entity player, History parent, Block block) {
+        String playerUuid = player.getUniqueId().toString();
+        if (pl <= 0) {
+            playerService.registerPlayer()
         }
         long playerId = playerModel.getId();
 

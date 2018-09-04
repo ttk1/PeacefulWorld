@@ -16,8 +16,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "session_history")
 public class SessionHistoryModel extends Model{
-    public static final SessionHistoryFinder find = new SessionHistoryFinder();
-
     @Id
     private long id;
 
@@ -56,11 +54,8 @@ public class SessionHistoryModel extends Model{
     }
 
     public static class SessionHistoryFinder extends Finder<Long, SessionHistoryModel>{
-        SessionHistoryFinder(){
-            super(SessionHistoryModel.class);
-        }
-        SessionHistoryFinder(String serverName){
-            super(SessionHistoryModel.class, serverName);
+        SessionHistoryFinder(String ebeanServerName){
+            super(SessionHistoryModel.class, ebeanServerName);
         }
     }
 }

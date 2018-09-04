@@ -1,5 +1,7 @@
 package net.ttk1.peacefulworld.api;
 
+import org.bukkit.Location;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Entity;
 
 import java.util.List;
@@ -18,6 +20,16 @@ public interface History {
      * @return このhistoryが生成されたunix time(ミリ精度)を返す
      */
     long getTime();
+
+    /**
+     * @return このhistoryのLocationを返す
+     */
+    Location getLocation();
+
+    /**
+     * @return 変更後のBlockDataを返す
+     */
+    BlockData getBlockData();
 
     /**
      * @return このhistoryを引き起こしたエンティティのuuidを返す
@@ -43,16 +55,6 @@ public interface History {
     List<History> getChildren();
 
     /**
-     * @return 変更後のBlockの情報を持つBlockAdapterを返す
-     */
-    BlockAdapter getBlock();
-
-    /**
-     * @return 変更前のBlockの情報を持つBlockAdapterを返す
-     */
-    BlockAdapter getBlockReplaced();
-
-    /**
      * @return このHistoryがロールバックされたものか否かを返す
      */
     boolean isRollbacked();
@@ -62,7 +64,7 @@ public interface History {
      * 競合が発生した場合失敗し、なにも変化しない。
      * @return ロールバックが成功したかどうか
      */
-    boolean rollbackThis();
+    boolean rollback();
 
     /**
      * force=falseの場合rollbackThis()と同じ動作をする。
@@ -70,7 +72,7 @@ public interface History {
      * @param force 強制的にロールバックするか
      * @return
      */
-    boolean rollbackThis(boolean force);
+    boolean rollback(boolean force);
 
     /**
      * このhistoryに関係するすべてのhistoryをロールバックする。
