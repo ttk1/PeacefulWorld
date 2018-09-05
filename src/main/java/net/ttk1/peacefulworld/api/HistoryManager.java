@@ -14,5 +14,4 @@ import java.util.List;
 public interface HistoryManager {
     History getHistory(long id);
     List<History> getHistoryAt(Location loc);
-    HistoryBuilder getHistoryBuilder();
 }

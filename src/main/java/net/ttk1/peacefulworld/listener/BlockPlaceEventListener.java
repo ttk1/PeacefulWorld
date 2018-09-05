@@ -30,16 +30,6 @@ public class BlockPlaceEventListener implements Listener {
 
     @EventHandler
     public void onBlockPlaceEventListener(BlockPlaceEvent event) {
-
-        HistoryBuilder historyBuilder = historyManager.getHistoryBuilder();
-        historyBuilder = historyBuilder.setTime(new Date().getTime());
-        historyBuilder = historyBuilder.setPlayer(event.getPlayer());
-        historyBuilder = historyBuilder.setParent(null);
-        historyBuilder = historyBuilder.setBlockReplaced(BlockAdapter.of(event.getBlockPlaced()));
-        historyBuilder = historyBuilder.setBlock(BlockAdapter.of(event.getBlock()));
-
-        History history = historyBuilder.build();
-
     }
 
 }

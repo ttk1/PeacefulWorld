@@ -113,8 +113,8 @@ public class HistoryChainModel extends Model {
         return blockDataString;
     }
 
-    public static class BlockHistoryFinder extends Finder<Long, HistoryChainModel>{
-        BlockHistoryFinder(String ebeanServerName){
+    public static class HistoryChainFinder extends Finder<Long, HistoryChainModel>{
+        public HistoryChainFinder(String ebeanServerName){
             super(HistoryChainModel.class, ebeanServerName);
         }
     }

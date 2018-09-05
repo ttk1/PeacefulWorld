@@ -75,9 +75,9 @@ public class EbeanServerProvider implements Provider<EbeanServer> {
         EbeanServer ebeanServer = EbeanServerFactory.createWithContextClassLoader(serverConfig, this.getClass().getClassLoader());
         try {
             // try to access database
-            HistoryChainModel.find.byId(1L);
-            PlayerModel.find.byId(1L);
-            SessionHistoryModel.find.byId(1L);
+            ebeanServer.find(HistoryChainModel.class).where().eq("id", 1L).findOne();
+            ebeanServer.find(PlayerModel.class).where().eq("id", 1L).findOne();
+            ebeanServer.find(SessionHistoryModel.class).where().eq("id", 1L).findOne();
         } catch (Exception e) {
             //TODO
             serverConfig.setDdlCreateOnly(dbConfig.getBoolean("protect", true));

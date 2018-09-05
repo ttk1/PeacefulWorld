@@ -12,14 +12,8 @@ import javax.persistence.PersistenceException;
 
 @Singleton
 public class PlayerService {
-    private PeacefulWorld plugin;
     private String ebeanServerName;
     private PlayerFinder playerFinder;
-
-    @Inject
-    private void setPlugin(PeacefulWorld plugin) {
-        this.plugin = plugin;
-    }
 
     @Inject
     private void setEbeanServerName(@Named("ebeanServerName") String ebeanServerName) {

@@ -10,6 +10,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 
 public class HistoryChainModelTest {
+    /*
     @Test
     public void insertTest(){
         // insert
@@ -27,4 +28,5 @@ public class HistoryChainModelTest {
         assertThat(hc.getY(), is(600L));
         assertThat(hc.getZ(), is(700L));
     }
+    */
 }
