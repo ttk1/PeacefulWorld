@@ -20,13 +20,13 @@ public class HistoryChainModel extends Model {
     private long time;
 
     // 起源となるHistoryのid
-    private long origin;
+    private long originId;
 
     // 親のHistoryのid
-    private long parent;
+    private long parentId;
 
     // プレーヤーid
-    private long player;
+    private long playerId;
 
     // ロールバックしたか
     private boolean rollback;
@@ -45,11 +45,11 @@ public class HistoryChainModel extends Model {
 
     private String blockDataString;
 
-    public HistoryChainModel(long time, long origin, long parent, long player, String worldName, int x, int y, int z, String blockDataString) {
+    public HistoryChainModel(long time, long originId, long parentId, long playerId, String worldName, int x, int y, int z, String blockDataString) {
         this.time = time;
-        this.origin = origin;
-        this.parent = parent;
-        this.player = player;
+        this.originId = originId;
+        this.parentId = parentId;
+        this.playerId = playerId;
         this.rollback = false;
         this.worldName = worldName;
         this.x = x;
@@ -59,8 +59,8 @@ public class HistoryChainModel extends Model {
 
         this.save();
 
-        if (origin == 0) {
-            this.origin = this.id;
+        if (originId == 0) {
+            this.originId = this.id;
             this.update();
         }
     }
@@ -73,16 +73,16 @@ public class HistoryChainModel extends Model {
         return time;
     }
 
-    public long getOrigin() {
-        return origin;
+    public long getOriginId() {
+        return originId;
     }
 
-    public long getParent() {
-        return parent;
+    public long getParentId() {
+        return parentId;
     }
 
-    public long getPlayer() {
-        return player;
+    public long getPlayerId() {
+        return playerId;
     }
 
     public boolean getRollback() {

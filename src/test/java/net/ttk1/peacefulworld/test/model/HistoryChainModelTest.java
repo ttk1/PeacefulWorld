@@ -20,9 +20,9 @@ public class HistoryChainModelTest {
         // select
         hc = HistoryChainModel.find.query().where().eq("id", 1L).findOne();
         assertThat(hc.getId(), is(1L));
-        assertThat(hc.getOrigin(), is(200L));
-        assertThat(hc.getParent(), is(300L));
-        assertThat(hc.getPlayer(), is(400L));
+        assertThat(hc.getOriginId(), is(200L));
+        assertThat(hc.getParentId(), is(300L));
+        assertThat(hc.getPlayerId(), is(400L));
         assertThat(hc.getWorldName(), is("test world"));
         assertThat(hc.getX(), is(500L));
         assertThat(hc.getY(), is(600L));

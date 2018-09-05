@@ -32,9 +32,9 @@ public interface History {
     BlockData getBlockData();
 
     /**
-     * @return このhistoryを引き起こしたエンティティのuuidを返す
+     * @return このhistoryを引き起こしたプレイヤーのuuidを返す
      */
-    String getUuid();
+    String getPlayerUuid();
 
     /**
      * 自分自身が発生源のhistoryは自分自身を返す。

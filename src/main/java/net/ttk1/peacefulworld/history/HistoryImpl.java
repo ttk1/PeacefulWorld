@@ -16,6 +16,14 @@ public class HistoryImpl implements History {
     private PlayerService playerService;
     private HistoryChainService historyChainService;
 
+    private long id;
+    private long time;
+    private long originId;
+    private long parentId;
+    private String playerUuid;
+    private Location location;
+    private BlockData blockData;
+
     @Inject
     private void setPlayerService(PlayerService playerService) {
         this.playerService = playerService;
@@ -26,7 +34,14 @@ public class HistoryImpl implements History {
         this.historyChainService = historyChainService;
     }
 
-    public HistoryImpl() {
+    public HistoryImpl(long id, long time, long originId, long parentId, String playerUuid, Location location, BlockData blockData) {
+        this.id = id;
+        this.time = time;
+        this.originId = originId;
+        this.parentId = parentId;
+        this.playerUuid = playerUuid;
+        this.location = location;
+        this.blockData = blockData;
     }
 
     @Override
@@ -50,7 +65,7 @@ public class HistoryImpl implements History {
     }
 
     @Override
-    public String getUuid() {
+    public String getPlayerUuid() {
         return null;
     }
 
