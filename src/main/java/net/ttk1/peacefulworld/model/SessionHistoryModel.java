@@ -3,7 +3,6 @@ package net.ttk1.peacefulworld.model;
 import io.ebean.Finder;
 import io.ebean.Model;
 import io.ebean.annotation.Cache;
-import io.ebean.annotation.CreatedTimestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,6 +15,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "session_history")
 public class SessionHistoryModel extends Model{
+    public static final int TYPE_LOGIN = 0;
+    public static final int TYPE_LOGOUT = 1;
+
     @Id
     private long id;
 
@@ -24,17 +26,18 @@ public class SessionHistoryModel extends Model{
     private long time;
 
     // プレーヤーテーブルのid
-    private long player;
+    private long playerId;
 
     // type:0 -> login
     // type:1 -> logout
     private int type;
 
 
-    public SessionHistoryModel(long time, long player, int type) {
+    public SessionHistoryModel(long time, long playerId, int type) {
         this.time = time;
-        this.player = player;
+        this.playerId = playerId;
         this.type = type;
+        this.save();
     }
 
     public long getId() {
@@ -45,8 +48,8 @@ public class SessionHistoryModel extends Model{
         return time;
     }
 
-    public long getPlayer() {
-        return player;
+    public long getPlayerId() {
+        return playerId;
     }
 
     public int getType() {
@@ -54,7 +57,7 @@ public class SessionHistoryModel extends Model{
     }
 
     public static class SessionHistoryFinder extends Finder<Long, SessionHistoryModel>{
-        SessionHistoryFinder(String ebeanServerName){
+        public SessionHistoryFinder(String ebeanServerName){
             super(SessionHistoryModel.class, ebeanServerName);
         }
     }

@@ -18,7 +18,11 @@ public class PlayerService {
     @Inject
     private void setEbeanServerName(@Named("ebeanServerName") String ebeanServerName) {
         this.ebeanServerName = ebeanServerName;
-        playerFinder = new PlayerFinder(ebeanServerName);
+        setPlayerFinder(new PlayerFinder(ebeanServerName));
+    }
+
+    private void setPlayerFinder(PlayerFinder playerFinder) {
+        this.playerFinder = playerFinder;
     }
 
     // 負の値が返ったら未登録
@@ -37,7 +41,7 @@ public class PlayerService {
         if (player == null) {
             return null;
         } else {
-            return player.getName();
+            return player.getPlayerName();
         }
     }
 
@@ -47,14 +51,12 @@ public class PlayerService {
         if (player == null) {
             return null;
         } else {
-            return player.getUuid();
+            return player.getPlayerUuid();
         }
     }
 
     public long registerPlayer(String playerUuid, String playerName) {
-        PlayerModel player = new PlayerModel();
-        player.setName(playerName);
-        player.setUuid(playerUuid);
+        PlayerModel player = new PlayerModel(playerUuid, playerName);
 
         // uuidが重複したら例外が飛ぶ
         try {
@@ -69,7 +71,7 @@ public class PlayerService {
     public void updatePlayerName(long playerId, String playerName) {
         PlayerModel player = playerFinder.byId(playerId);
         if (player != null) {
-            player.setName(playerName);
+            player.setPlayerName(playerName);
             player.update(ebeanServerName);
         }
     }
