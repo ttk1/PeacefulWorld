@@ -21,32 +21,28 @@ public class HistoryChainService {
     private PlayerService playerService;
 
     @Inject
-    private void setPlugin(PeacefulWorld plugin) {
+    protected void setPlugin(PeacefulWorld plugin) {
         this.plugin = plugin;
     }
 
     @Inject
-    private void setEbeanServerName(@Named("ebeanServerName") String ebeanServerName) {
+    protected void setEbeanServerName(@Named("ebeanServerName") String ebeanServerName) {
         this.ebeanServerName = ebeanServerName;
         setHistoryChainFinder(new HistoryChainFinder(ebeanServerName));
     }
 
     @Inject
-    private void setPlayerService(PlayerService playerService) {
+    protected void setPlayerService(PlayerService playerService) {
         this.playerService = playerService;
     }
 
-    private void setHistoryChainFinder(HistoryChainFinder historyChainFinder) {
+    protected void setHistoryChainFinder(HistoryChainFinder historyChainFinder) {
         this.historyChainFinder = historyChainFinder;
     }
 
-    public long registerHistory(long parentId, long playerId, Location location, BlockData blockData) {
+    public long registerHistory(long originId, long parentId, long playerId, Location location, BlockData blockData) {
         // time
         long time = System.currentTimeMillis();
-
-        // originId
-        // parent無しは、HistoryChainのコンストラクト内で自分自身のidを入れるのでここでは0にしておく
-        long originId = parentId == 0 ? 0 : getOriginId(parentId);
 
         // worldName, x, y, z
         String worldName = location.getWorld().getName();
