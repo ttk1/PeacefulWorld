@@ -1,10 +1,12 @@
 package net.ttk1.peacefulworld.history;
 
 import com.google.inject.Inject;
+import net.ttk1.peacefulworld.PeacefulWorld;
 import net.ttk1.peacefulworld.api.History;
 import net.ttk1.peacefulworld.service.HistoryChainService;
 import net.ttk1.peacefulworld.service.PlayerService;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
 
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.List;
  * @author ttk1 and mmtsk
  */
 public class HistoryImpl implements History {
+    private PeacefulWorld plugin;
     private PlayerService playerService;
     private HistoryChainService historyChainService;
 
@@ -26,6 +29,11 @@ public class HistoryImpl implements History {
     private int y;
     private int z;
     private String blockDataString;
+
+    @Inject
+    private void setPlugin(PeacefulWorld plugin) {
+        this.plugin = plugin;
+    }
 
     @Inject
     private void setPlayerService(PlayerService playerService) {
@@ -72,7 +80,7 @@ public class HistoryImpl implements History {
 
     @Override
     public History getParent() {
-        return null;
+        return historyChainService.getHistory(originId);
     }
 
     public long getParentId() {
@@ -86,7 +94,12 @@ public class HistoryImpl implements History {
 
     @Override
     public Location getLocation() {
-        return null;
+        World world = plugin.getServer().getWorld(worldName);
+        double double_x = (double) x;
+        double double_y = (double) y;
+        double double_z = (double) z;
+
+        return new Location(world, x, y, z);
     }
 
     public String getWorldName() {
@@ -107,7 +120,7 @@ public class HistoryImpl implements History {
 
     @Override
     public BlockData getBlockData() {
-        return null;
+        return plugin.getServer().createBlockData(blockDataString);
     }
 
     public String getBlockDataString() {
