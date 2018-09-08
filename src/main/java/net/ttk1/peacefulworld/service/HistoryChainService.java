@@ -60,9 +60,13 @@ public class HistoryChainService {
 
     // 負の値が返ったらid未登録
     public long getOriginId(long historyId) {
+        if (historyId <= 0L) {
+            return -1L;
+        }
+
         HistoryChainModel historyChain = historyChainFinder.byId(historyId);
         if (historyChain == null) {
-            return -1;
+            return -1L;
         } else {
             return historyChain.getOriginId();
         }
@@ -71,6 +75,10 @@ public class HistoryChainService {
     // 0が返ったらparentをもたない
     // 負の値が返ったらid未登録
     public long getParentId(long historyId) {
+        if (historyId <= 0L) {
+            return -1L;
+        }
+
         HistoryChainModel historyChain = historyChainFinder.byId(historyId);
         if (historyChain == null) {
             return -1;
@@ -81,6 +89,10 @@ public class HistoryChainService {
 
     // nullが返ったら未登録
     public History getHistory(long historyId) {
+        if (historyId <= 0L) {
+            return null;
+        }
+
         HistoryChainModel historyChain = historyChainFinder.byId(historyId);
         if (historyChain == null) {
             return null;

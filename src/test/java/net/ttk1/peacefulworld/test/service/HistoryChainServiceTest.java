@@ -80,6 +80,9 @@ public class HistoryChainServiceTest extends HistoryChainService {
         this.setHistoryChainFinder(historyChainFinder);
         assertThat(getOriginId(1002L), is(1001L));
 
+        // zero and negative id
+        assertThat(getOriginId(0L), is(-1L));
+        assertThat(getOriginId(-1L), is(-1L));
 
         // null
         when(historyChainFinder.byId(anyLong())).thenReturn(null);
@@ -98,6 +101,9 @@ public class HistoryChainServiceTest extends HistoryChainService {
         setHistoryChainFinder(historyChainFinder);
         assertThat(getParentId(1002L), is(1001L));
 
+        // zero and negative id
+        assertThat(getParentId(0L), is(-1L));
+        assertThat(getParentId(-1L), is(-1L));
 
         // null
         when(historyChainFinder.byId(anyLong())).thenReturn(null);
@@ -157,5 +163,10 @@ public class HistoryChainServiceTest extends HistoryChainService {
         assertThat(history.getZ(), is(103));
 
         assertThat(history.getBlockDataString(), is("minecraft:grass_block[snowy=false]"));
+
+        // zero and negative id
+        when(historyChainFinder.byId(anyLong())).thenReturn(historyChain);
+        assertThat(getHistory(0L), is(nullValue()));
+        assertThat(getHistory(-1L), is(nullValue()));
     }
 }
