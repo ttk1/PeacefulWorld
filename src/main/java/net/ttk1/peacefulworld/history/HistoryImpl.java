@@ -21,8 +21,11 @@ public class HistoryImpl implements History {
     private long originId;
     private long parentId;
     private String playerUuid;
-    private Location location;
-    private BlockData blockData;
+    private String worldName;
+    private int x;
+    private int y;
+    private int z;
+    private String blockDataString;
 
     @Inject
     private void setPlayerService(PlayerService playerService) {
@@ -34,39 +37,28 @@ public class HistoryImpl implements History {
         this.historyChainService = historyChainService;
     }
 
-    public HistoryImpl(long id, long time, long originId, long parentId, String playerUuid, Location location, BlockData blockData) {
+    public HistoryImpl(long id, long time, long originId, long parentId, String playerUuid,
+                       String worldName, int x, int y, int z, String blockDataString) {
         this.id = id;
         this.time = time;
         this.originId = originId;
         this.parentId = parentId;
         this.playerUuid = playerUuid;
-        this.location = location;
-        this.blockData = blockData;
+        this.worldName = worldName;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.blockDataString = blockDataString;
     }
 
     @Override
     public long getId() {
-        return 0;
+        return id;
     }
 
     @Override
     public long getTime() {
-        return 0;
-    }
-
-    @Override
-    public Location getLocation() {
-        return null;
-    }
-
-    @Override
-    public BlockData getBlockData() {
-        return null;
-    }
-
-    @Override
-    public String getPlayerUuid() {
-        return null;
+        return time;
     }
 
     @Override
@@ -74,9 +66,52 @@ public class HistoryImpl implements History {
         return null;
     }
 
+    public long getOriginId() {
+        return originId;
+    }
+
     @Override
     public History getParent() {
         return null;
+    }
+
+    public long getParentId() {
+        return parentId;
+    }
+
+    @Override
+    public String getPlayerUuid() {
+        return playerUuid;
+    }
+
+    @Override
+    public Location getLocation() {
+        return null;
+    }
+
+    public String getWorldName() {
+        return worldName;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getZ() {
+        return z;
+    }
+
+    @Override
+    public BlockData getBlockData() {
+        return null;
+    }
+
+    public String getBlockDataString() {
+        return blockDataString;
     }
 
     @Override

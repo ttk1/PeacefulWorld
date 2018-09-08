@@ -93,17 +93,16 @@ public class HistoryChainService {
             // playerUuid
             String playerUuid = playerService.getPlayerUuid(historyChain.getPlayerId());
 
-            // location
-            World world = plugin.getServer().getWorld(historyChain.getWorldName());
-            double x = (double) historyChain.getX();
-            double y = (double) historyChain.getY();
-            double z = (double) historyChain.getZ();
-            Location location = new Location(world, x, y, z);
+            // worldName, x, y, z
+            String worldName = historyChain.getWorldName();
+            int x = historyChain.getX();
+            int y = historyChain.getY();
+            int z = historyChain.getZ();
 
-            // blockData
-            BlockData blockData = plugin.getServer().createBlockData(historyChain.getBlockDataString());
+            // blockDataString
+            String blockDataString = historyChain.getBlockDataString();
 
-            return new HistoryImpl(historyId, time, originId, parentId, playerUuid, location, blockData);
+            return new HistoryImpl(historyId, time, originId, parentId, playerUuid, worldName, x, y, z, blockDataString);
         }
     }
 }
